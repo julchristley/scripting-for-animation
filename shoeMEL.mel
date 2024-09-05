@@ -1,0 +1,65 @@
+//TYPE THE FULL NAMES
+
+
+//making the sole
+polyCube -width 1 -height 1 -depth 1 -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 -constructionHistory 1;
+move -relative 0 1.5 2.568 ;
+scale -relative 4 1 4 ;
+
+polyCube -width 1 -height 1 -depth 1 -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 -constructionHistory 1;
+move -relative 0 1.5 -1.915 ;
+scale -relative 4 1 3 ;
+
+polyCube -width 1 -height 1 -depth 1 -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 -constructionHistory 1;
+move -relative 0 2.5 0.578 ;
+scale -relative 4 1 8 ;
+
+//top part
+polyCube -width 1 -height 1 -depth 1 -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 -constructionHistory 1;
+move -relative 0 3.75 0.537 ;
+scale -relative 3.6 1.5 7.5 ;
+
+polyCube -width 1 -height 1 -depth 1 -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 -constructionHistory 1;
+move -relative 0 4.97 0.259 ;
+scale -relative 3.2 1 7 ;
+
+polyCube -width 1 -height 1 -depth 1 -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 -constructionHistory 1;
+move -relative 0 5.971 -1.447 ;
+scale -relative 3.2 1 3.6 ;
+
+//slanting
+select -replace pCube4.e[1] ;
+move -relative -objectSpace -wd 0 0 -0.521588 ;
+scale -relative -p 0cm 3.75cm 4.026206cm 0.91617 0.91617 0.91617 ;
+move -relative -objectSpace -worldSpaceDistance 0 0 0.281554 ;
+move -relative -objectSpace -worldSpaceDistance 0 0 -0.31955 ;
+
+select -replace pCube5.e[1] ;
+move -relative -objectSpace -worldSpaceDistance 0 0 -3.411145 ;
+
+select -replace pCube6.e[2] ;
+move -relative -objectSpace -worldSpaceDistance 0 -0.583573 0 ;
+
+// laces
+polyCube -width 1 -height 1 -depth 1 -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 -constructionHistory 1;
+move -relative 0 5.235 0.920 ;
+scale -relative 3.5 0.5 .5 ;
+
+polyCube -width 1 -height 1 -depth 1 -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 -constructionHistory 1;
+move -relative 0 4.954 1.899 ;
+scale -relative 3.5 0.5 .5 ;
+
+polyCube -width 1 -height 1 -depth 1 -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 -constructionHistory 1;
+move -relative 0 4.631 2.927 ;
+scale -relative 3.5 0.5 .5 ;
+
+select -toggle pCube9 ;
+select -toggle pCube8 ;
+select -toggle pCube7 ;
+rotate -relative -objectSpace -forceOrderXYZ 22.195695 0 0 ;
+
+//details
+select -replace pCube4.vtx[5] ;
+move -relative -0.198975 0.0274067 -0.0366137 ;
+select -replace pCube4.vtx[4] ;
+move -relative 0.160386 -0.0193549 0.0304438 ;
