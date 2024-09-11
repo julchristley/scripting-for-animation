@@ -1,0 +1,12 @@
+float $height = 5;
+float $depth = 1;
+float $width = 1;
+string $temp[];
+string $leg;
+
+$temp = `polyCube -width $width -height $height -depth $depth -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 - constructionHistory 1`;
+
+$leg = $temp[0];
+
+xform -worldSpace -translation 0 ($height/2) 0 $leg;
+

@@ -1,0 +1,28 @@
+//class example:
+float $height = 1;
+float $depth = 3;
+float $width = 8;
+int $numStairs = 10;
+string $selStairs;
+string $temp[];
+
+//build first stair
+$temp = polyCube -width $width -height $height -depth $depth -sx 1 -sy 1 -sz 1 -ax 0 1 0 -cuv 4 - ch 1;
+$selStair = $temp[0];
+//move to ground plane
+xform -worldSpace -translation 0 ($height/2) 0 $selStair; // last $selStair makes sure xform moves the selected stair
+
+//builds more stairs, loops building
+for($i=0; $i<n$numStairs; $i++)
+{
+    $temp = `duplicate -returnRootsOnly $selStair`;
+    $selStair = temp[0];
+    xform -relative -objectSpace -translation 0 $height $depth; // if you want it the opposite way, ($depth*-1), or create build left/right value, variable *-1
+}
+
+//recommended approach: write down what you want to do, in order, before scripting (determine variables, build, place stair, build 2nd stair, loop)
+
+/*
+
+
+*/
