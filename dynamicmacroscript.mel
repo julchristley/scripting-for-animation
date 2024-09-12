@@ -1,12 +1,43 @@
-float $height = 5;
-float $depth = 1;
-float $width = 1;
-string $temp[];
+//lWidth,dlHeight,lDepth = leg. sHeight = seat
+
+float $lWidth = 3;
+float $lHeight = 20;
+float $lDepth = 3;
+float $sHeight = 3;
 string $leg;
+string $seat;
+string $back;
+string $temp[];
 
-$temp = `polyCube -width $width -height $height -depth $depth -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 - constructionHistory 1`;
-
+$temp = `polyCube -width $lWidth -height $lHeight -depth $lDepth -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 - constructionHistory 1`;
 $leg = $temp[0];
 
-xform -worldSpace -translation 0 ($height/2) 0 $leg;
+xform -worldSpace -translation ($lHeight/-1.7) ($lHeight/2) 0 $leg;
 
+$temp = `duplicate -returnRootsOnly $leg`;
+$leg = $temp[0];
+
+xform -worldSpace -translation ($lHeight/1.7) ($lHeight/2) 0 $leg;
+
+$temp = `duplicate -returnRootsOnly $leg`;
+$leg = $temp[0];
+
+xform -worldSpace -translation ($lHeight/1.7) ($lHeight/2) ($lHeight/.9) $leg;
+
+$temp = `duplicate -returnRootsOnly $leg`;
+$leg = $temp[0];
+
+xform -worldSpace -translation ($lHeight/-1.7) ($lHeight/2) ($lHeight/.9) $leg;
+
+$temp = `polyCube -width ($lHeight*1.4) -height $sHeight -depth ($lHeight*1.4) -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 - constructionHistory 1`;
+$seat = $temp[0];
+xform -worldSpace -translation (0) ($lHeight) ($lHeight/1.8) $seat;
+
+
+$temp = `polyCube -width ($lHeight*1.4) -height ($lHeight*1.3) -depth ($sHeight) -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 - constructionHistory 1`;
+$back = $temp[0];
+
+xform -worldSpace -translation (0) ($lHeight*1.65) (($lHeight*1.4)-($lHeight*1.4)) $back;
+
+rotate -r -os -fo -13 0 0 $back;
+move -r -os -wd 0 0 -3 $back;
