@@ -6,8 +6,13 @@ int $numStairs = 10;
 string $selStairs;
 string $temp[];
 
+// i have no idea if this is right or not
+proc buildStairs(float $depth, float $height, float, $width, int $selStairs)
+{
+string $selStair;
+string $temp[];
 //build first stair
-$temp = polyCube -width $width -height $height -depth $depth -sx 1 -sy 1 -sz 1 -ax 0 1 0 -cuv 4 - ch 1;
+$temp = `polyCube -width $width -height $height -depth $depth -sx 1 -sy 1 -sz 1 -ax 0 1 0 -cuv 4 - ch 1`;
 $selStair = $temp[0];
 //move to ground plane
 xform -worldSpace -translation 0 ($height/2) 0 $selStair; // last $selStair makes sure xform moves the selected stair
@@ -19,10 +24,58 @@ for($i=0; $i<n$numStairs; $i++)
     $selStair = temp[0];
     xform -relative -objectSpace -translation 0 $height $depth; // if you want it the opposite way, ($depth*-1), or create build left/right value, variable *-1
 }
+}
 
 //recommended approach: write down what you want to do, in order, before scripting (determine variables, build, place stair, build 2nd stair, loop)
 
 /*
-
+int: 1, 15, 202094890, -3542, 0; // whole values
+float: 3.14, 4.0, 465.234; //decimals
+string: "car", "yoo hoo", "73";
+bool: true; or false; 1 or 0
+array: container of multiple values
 
 */
+
+int $number;
+
+string $name;
+
+float $price;
+
+int $grade;
+
+//array
+float $position [] = {4, 3, 10, 77, 13};
+//                    0, 1,  2, 3,  4
+print($position[3]);
+
+$position[0] = 14;
+$position[1] = 3.3;
+$position[2] = 82; // and etc
+
+
+
+//snow man
+string $object[];
+$object = `polySphere -r 1 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1`;
+
+//object is an array, so [pSphere1, polySphere1]
+move -relative 3 3 3 $object[0];
+
+float $radius = `polySphere -q -radius $object[0]`;
+print($radius);
+
+polySphere -e -radius ($radius - 2.3) $object[0];
+
+
+float $size = 3;
+
+polySphere -r $size -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1;
+move -r -os -wd 0 $size 0;
+
+polySphere -r ($size - 1) -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1;
+move -r -os -wd 0 (($size * 2) + ($size - 1)) 0;
+
+polySphere -r ($size - 2) -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1;
+move -r -os -wd 0 (($size * 2) + (($size - 1) * 2 + $size - 2)) 0;

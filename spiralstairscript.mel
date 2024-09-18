@@ -1,0 +1,17 @@
+/*
+conditions
+(3 == 5) would return 0, because it's false
+(5 > 3) return 1 i think, true
+
+
+if statement 
+if (5 > 3)
+{
+    print ("Hello World"\n);  //  \n makes a new line
+}
+print ("Outside the brackets");
+
+
+else statement  
+
+*/
