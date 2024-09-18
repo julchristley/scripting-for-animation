@@ -1,4 +1,4 @@
-proc buildStairs(float $stairWidth, float $stairDepth, float $stairHeight, int $numStairs, float $rotation, float $pivotPoint)
+proc buildStairs(float $stairWidth, float $stairDepth, float $stairHeight, int $numStairs, float $rotation, float $pivotPoint, float $stepHeight)
 {
     string $selStair;
     string $temp[];
@@ -11,23 +11,23 @@ proc buildStairs(float $stairWidth, float $stairDepth, float $stairHeight, int $
     {
         $temp = `duplicate -returnRootsOnly $selStair`;
         $selStair = $temp[0];
-        xform -relative -objectSpace -translation 0 $stairHeight ($stairDepth/2); 
+        xform -relative -objectSpace -translation 0 $stairHeight ($stairDepth/$stepHeight); 
         rotate -r -os -fo 0 $rotation 0 ;
         move -r -os -wd $pivotPoint 0 0 ;
     }
 }
 
-buildStairs(5, 4, 2, 30, 14, .5);
-buildStairs(7, 3, 1, 30, 15, .2);
-buildStairs(18, 20, 5, 30, 20, 3);
+buildStairs(5, 4, 2, 30, 14, .5, 1.5);
+buildStairs(7, 3, 1, 30, 15, .2, .9);
+buildStairs(18, 20, 5, 30, 20, 3, 2.2);
 
 
 /*
-*number of stairs created
-*stair length
-*stair width
-*stair height
-*stair pivot point
-step height -- I'm ignoring this one, I don't know how it's different from stair height
-*step rotation
+done - number of stairs created
+done - stair length
+done - stair width
+done - stair height
+done - stair pivot point
+done - step height -- space in between steps, I think??
+done - step rotation
 */
