@@ -1,0 +1,135 @@
+global proc float GetSum(float $input[])
+{
+    float $sum = 0;
+    for ($i=0; $i <size($input); $i++)
+    {
+        $sum += $input[$i];
+    }
+    return $sum;
+}
+
+
+global proc float GetDifference(float $input[])
+{
+    float $difference = $input[0];
+    for ($i=1; $i <size($input); $i++)
+    {
+        $difference -=$input[$i];
+    }
+    return $difference;
+}
+
+global proc float GetProduct(float $input[])
+{
+    float $product = $input[0];
+    for ($i=1; $i <size($input); $i++)
+    {
+        $product *= $input[$i];
+    }
+    return $product;
+}
+
+global proc float GetQuotient(float $input[])
+{
+    float $quotient = $input[0];
+    for ($i=1; $i <size($input); $i++)
+    {
+        $quotient /=$input[$i];
+    }
+    return $quotient;
+}
+
+global proc float GetPower(float $input[])
+{
+    float $power = $input[0];
+    for ($i=1; $i <size($input); $i++)
+    {
+        $power = pow($power, $input[$i]);
+    }
+    return $power;
+}
+
+global proc float GetMean(float $input[])
+{
+    float $mean =$input[0];
+    for ($i=1; $i <size($input); $i++)
+    {
+        $mean +=$input[$i];
+    }
+    $mean = $mean/size($input);
+    return $mean;
+}
+
+global proc float GetMedian(float $input[])
+{
+    int $length = size($input);
+    float $temp[];
+    for($i=0; $i<$length; $i++)
+    {
+        $temp[$i] = $input[$i];
+    }
+    for ($i=0; $i<$length-1; $i++)
+    {
+        for ($a=0; $a<$length-$i-1; $a++)
+        {
+            if ($temp[$a] > $temp[$a + 1])
+            {
+                float $swap = $temp[$a];
+                $temp[$a] = $temp[$a + 1];
+                $temp[$a + 1] = $swap;
+            }
+        }
+    }
+    if ($length % 2 == 1)
+    {
+        return $temp[$length/2];
+    }
+    else
+    {
+        int $even1 = ($length/2)-1;
+        int $even2 = ($length/2);
+        return ($temp[$even1]+$temp[$even2])/2;
+    }
+}
+
+
+global proc Calculator(string $operation, float $input[])
+{   
+    if ($operation == "1")
+    {
+        float $sum = GetSum($input);
+        print($sum + "\n");
+    }
+    else if ($operation == "2")
+    {
+        float $difference = GetDifference($input);
+        print ($difference + "\n");
+    }
+    else if ($operation == "3")
+    {
+        float $product = GetProduct($input);
+        print ($product + "\n");
+    }
+    else if ($operation == "4")
+    {
+        float $quotient = GetQuotient($input);
+        print ($quotient + "\n");
+    }
+    else if ($operation == "5")
+    {
+        float $power = GetPower($input);
+        print ($power + "\n");
+    }
+    else if ($operation == "6")
+    {
+        float $mean = GetMean($input);
+        print ($mean + "\n");
+    }
+    else if ($operation == "7")
+    {
+        float $median = GetMedian($input);
+        print ($median + "\n");
+    }
+}
+
+Calculator("7", {10,10,10});

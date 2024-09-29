@@ -1,0 +1,142 @@
+//calculator ($input[], $operation)o
+
+// adding anything(string in this case) before NamePicker() proc means you need to return the function
+proc string NamePicker()
+{
+   string $names[] = {"Dave", "Doug", "Clarence", "Mary", "Tina", "Phil"};
+    int $size = size($names);
+    int $randNum = `rand $size`;
+    //print ($names[$randNum] + "\n");
+
+    return ($names[$randNum]);
+}
+
+proc int RandomNumber(int $num)
+{
+    int $randNum = `rand $num`;
+    print ("This random number is " + $randNum + ("\n"));
+    return ($randNum);
+}
+ 
+print (NamePicker() + "'s favorite number is " + RandomNumber(100) + "!\n");
+
+print(RandomNumber(100) + RandomNumber(100));
+
+
+// 100 in the random numbers makes array 1 to 100
+
+//fortune teller
+// lottery number
+// bestest friend
+// fortune
+// zodiac sign
+
+//generate random lottery numbers
+global proc string LotteryNumbers()
+{
+    int $values[];
+    for ($i=0; $i < 7; $i++)
+    {
+        int $num = `rand 100`;
+        $values[size($values)] = $num;
+    }
+
+    return (intArrayToString($values, " - "));
+}
+
+print (LotteryNumbers());
+
+
+global proc BestestFriend(string $name)
+{
+   string $names[] = {"Dave", "Doug", "Clarence", "Mary", "Tina", "Phil"};
+    int $size = size($names);
+    int $randNum = `rand $size`;
+    print ($name + ", your new bestest friend will be named " + $names[$randNum] + "!\n");
+}
+
+BestestFriend("Tim");
+
+
+global proc FortuneCookie()
+{
+   string $fortunes[] = {"long fortune 1", "long fortune 2", "long fortune 3"};
+    
+    int $randNum = `rand (size($fortunes))`;
+    print($fortunes[$randNum] + "\n");
+}
+
+FortuneCookie();
+
+global proc string Zodiac(int $birthYear)
+{
+    string $signs[] = {"Rat","Ox","Tiger","Rabbit","Dragon","Snake","Horse","Sheep","Monkey","Rooster","Dog","Pig"};
+    int $index = ($birthYear - 4) % 12; //needs to be divisible by 12 (12 signs), and get a remainder of 0(?)
+    
+    return $signs[$index];
+    
+}
+
+print (Zodiac(2005));
+
+
+global proc FortuneTeller(string $myName, int $myBirthYear, int $operation)
+{
+    if ($operation == 1)
+    {
+        print ("Your lucky numbers for today are: " + LotteryNumbers() + "\n");
+    }
+    else if ($operation == 2)
+    {
+        BestestFriend($myName);
+    }
+    else if($operation == 3)
+    {
+        FortuneCookie();
+    }
+    else if ($operation == 4)
+    {
+        print ("Based on your birth year, " + $myBirthYear + ", your zodiac sign is the " + Zodiac($myBirthYear) + "\n");
+        
+        Zodiac($myBirthYear);
+    }
+    else
+    {
+        print ("Please input a valid operation type as a value, 1 through 4");
+    }
+}
+
+FortuneTeller("Melissa", 2005, 4);
+
+
+if ($sign == 0)
+        print ("Rat");
+    else if ($sign == 2)
+
+
+
+add ($input[])   [2,6,8,4,0,1,8]
+subtract
+multiply   for ($i = 0; $i < size($input); $i++0)
+            $input[$i]+$input[$i-1]
+divide
+mean
+median
+
+
+proc test (float $input[])
+{
+   for($i=0; $i<size($input); $i++)
+   {
+      if ($input[$i] % 2 == 0)  //idk i dont think this is a divide sign
+    {
+        break;
+    }
+    print ($input[$i] + "\n"); //idk
+    }  
+}
+
+
+test(1,4,7);
+
+

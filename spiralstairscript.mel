@@ -2,7 +2,7 @@ proc buildStairs(float $stairWidth, float $stairDepth, float $stairHeight, int $
 {
     string $selStair;
     string $temp[];
-    $temp = `polyCube -width $stairWidth -height $stairHeight -depth $stairDepth -sx 1 -sy 1 -sz 1 -ax 0 1 0 -cuv 4 - ch 1`;
+    $temp = `polyCube -width $stairWidth -height $stairHeight -depth $stairDepth -subdivisionsX 1 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -createUVs 4 -constructionHistory 1`;
     $selStair = $temp[0];
 
     xform -worldSpace -translation 0 ($stairHeight/2) 0 $selStair;
@@ -12,8 +12,8 @@ proc buildStairs(float $stairWidth, float $stairDepth, float $stairHeight, int $
         $temp = `duplicate -returnRootsOnly $selStair`;
         $selStair = $temp[0];
         xform -relative -objectSpace -translation 0 $stairHeight ($stairDepth/$stepHeight); 
-        rotate -r -os -fo 0 $rotation 0 ;
-        move -r -os -wd $pivotPoint 0 0 ;
+        rotate -relative -objectSpace -forceOrderXYZ 0 $rotation 0 ;
+        move -relative -objectSpace -worldSpaceDistance $pivotPoint 0 0 ;
     }
 }
 
