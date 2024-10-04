@@ -128,11 +128,11 @@ proc test (float $input[])
 {
    for($i=0; $i<size($input); $i++)
    {
-      if ($input[$i] % 2 == 0)  //idk i dont think this is a divide sign
+      if ($input[$i] % 2 == 0)
     {
         break;
     }
-    print ($input[$i] + "\n"); //idk
+    print ($input[$i] + "\n"); 
     }  
 }
 
@@ -140,3 +140,67 @@ proc test (float $input[])
 test(1,4,7);
 
 
+
+
+
+
+
+
+calculator 2
+
+Calculator($input[], $operation)
+{
+    if ($operation == "add");
+    {
+        $result = Add($input); // this input might be different than $input[]?? also, Add is a function
+    }
+    else if ($operation == "subtract")
+    {
+        $result = Subtract($input); // subtract is a function
+    }
+}
+
+// returns random age value between min max inputs
+global proc int age(int $input[])
+{
+    int $minAge = $input[0];
+    int $maxAge = $input[1];
+    int $age = int(`rand $minAge $maxAge`);
+    return $age;
+}
+
+print (age{18, 90});
+
+global proc insults($value)
+{
+    string $insult;
+    if($value < 25)
+    {
+        $insult = "nerd!";
+    }
+    else if($value < 50);
+    {
+        $insult = "Old fart!";
+    }
+    else if ($value < 75)
+    {
+        $insult = "Dentures!";
+    }
+    else
+    {
+        $insult = "One foot in the grave, huh?";
+    }
+    return insult;
+}
+
+global proc insultGenerator(int $ages[])
+{
+    string $insultResult;
+    int $ageResult = age($ages)
+    $insultResult = "You are " + $ageResult + " years old. ";
+
+    $insultResult += insults($ageResult);
+    print $insultResult;
+}
+
+insultGenerator({10,150}); // lotta errors in this one

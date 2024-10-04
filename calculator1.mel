@@ -1,3 +1,4 @@
+
 global proc float GetSum(float $input[])
 {
     float $sum = 0;
@@ -8,11 +9,10 @@ global proc float GetSum(float $input[])
     return $sum;
 }
 
-
 global proc float GetDifference(float $input[])
 {
     float $difference = $input[0];
-    for ($i=1; $i <size($input); $i++)
+    for ($i = 1; $i <size($input); $i++)
     {
         $difference -=$input[$i];
     }
@@ -95,41 +95,78 @@ global proc float GetMedian(float $input[])
 
 global proc Calculator(string $operation, float $input[])
 {   
-    if ($operation == "1")
+    float $result;
+    string $resultStatement = "";
+
+    for ($i = 0; $i < size($input); $i++)
     {
-        float $sum = GetSum($input);
-        print($sum + "\n");
+        $resultStatement += ("" + $input[$i]);
+
+        if ($i < size($input) -1)
+        {
+            if ($operation == "add")
+            {
+                $resultStatement += " + ";
+            }
+            else if ($operation == "subtract")
+            {
+                $resultStatement += " - ";
+            }
+            else if ($operation == "multiply")
+            {
+                $resultStatement += " * ";
+            }
+            else if ($operation == "divide")
+            {
+                $resultStatement += " / ";
+            }
+            else if ($operation == "power")
+            {
+                $resultStatement += " ^ ";
+            }
+                else if ($operation == "mean")
+            {
+                $resultStatement += ", ";
+            }
+                else if ($operation == "median")
+            {
+                $resultStatement += ", ";
+            }
+        }
     }
-    else if ($operation == "2")
+
+
+    if ($operation == "add")
     {
-        float $difference = GetDifference($input);
-        print ($difference + "\n");
+        $result = GetSum($input);
     }
-    else if ($operation == "3")
+    else if ($operation == "subtract")
     {
-        float $product = GetProduct($input);
-        print ($product + "\n");
+        $result = GetDifference($input);
     }
-    else if ($operation == "4")
+    else if ($operation == "multiply")
     {
-        float $quotient = GetQuotient($input);
-        print ($quotient + "\n");
+        $result = GetProduct($input);
     }
-    else if ($operation == "5")
+    else if ($operation == "divide")
     {
-        float $power = GetPower($input);
-        print ($power + "\n");
+        $result = GetQuotient($input);
     }
-    else if ($operation == "6")
+    else if ($operation == "power")
     {
-        float $mean = GetMean($input);
-        print ($mean + "\n");
+        $result = GetPower($input);
     }
-    else if ($operation == "7")
+    else if ($operation == "mean")
     {
-        float $median = GetMedian($input);
-        print ($median + "\n");
+        $result = GetMean($input);
     }
+    else if ($operation == "median")
+    {
+        $result = GetMedian($input);
+    }
+
+    $resultStatement += " = " + string($result);
+    print ($resultStatement + "\n");
 }
 
-Calculator("7", {10,10,10});
+Calculator("median", {1,2,3});
