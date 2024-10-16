@@ -1,0 +1,265 @@
+// get selection, find position, calculate center, create/move locator to center position
+proc CenterLoc()   // this doesn't work :/ need to combine geometry into one to create a bounding box
+{
+    string $sels[] = `ls -sl`;
+
+    float $bbox[] = `xform -q -boundingBox $sels`;
+    float $centerX;
+    float $centery;
+    float $centerZ;
+
+    //xmin ymin zmin xmax ymax zmax
+    // 0    1    2    3    4    5
+
+    float $centerX = ($bbox[0] + $bbox[3]) / 2;
+    float $centerY = ($bbox[1] + $bbox[4]) / 2;
+    float $centerZ = ($bbox[2] + $bbox[5]) / 2;
+
+    string $loc =  `spaceLocator -p 0 0 0 `;
+    xform -worldSpace -translation $centerX $centerY $centerZ $loc[];
+}
+ 
+ CenterLoc();
+
+//pay atention to structure of ui
+window; 
+    columnLayout;
+        button; 
+        button; 
+        intField; 
+        rowLayout -numberOfColumns 3;
+            button;
+            columnLayout;
+                button; 
+                button;
+                button;
+                setParent ..;
+                button;
+
+
+showWindow;
+
+
+string $mWindow = `window`; 
+string $mColumn = `columnLayout`;
+string $mRow = `rowLayout -numberOfColumns 3`;
+string $rColumn = `columnLayout -p $mRow`;
+
+button -p $mColumn; // specifying that the parent is mColumn
+button -p $mColumn; 
+intField -p $mColumn; 
+button -p $mRow;
+button -p $rColumn; 
+button -p $mRow;
+button -p $mColumn;
+button -p $rColumn;
+
+
+showWindow;
+
+
+global proc Add()
+{
+    string $field1 = `optionVar -q "firstField"`;
+    string $field2 = `optionVar -q "secondField"`;
+    string $field3 = `optionVar -q "thirdField"`;
+    string $field4 = `optionVar -q "myTextField"`;
+
+    float $value1 = `floatField -q -value $field1`;
+    float $value2 = `floatField -q -value $field2`;
+
+    float $sum = $value1 + $value2;
+
+    floatField -e -value $sum $field3; //edits 3rd value
+    textField -e -text ("The sum of " + $value1 + " and " + $value2 + " is " + $sum + ".") $field4;
+}
+
+global proc WhatsInFloatField()
+{
+    string $field1 = `optionVar -q "firstField"`;
+    print ($field1 + "\n");
+   print (`floatField -q -value $field1`);
+}
+
+string $mWindow = "test_ui";
+
+ if (`window -exists $mWindow`)
+ {
+    deleteUI $mWindow;  // deletes mwindow if it already exists, always check this
+ }
+
+$mWindow = `window -height 300
+                          -title "example window"
+                          -sizeable 1
+                          -width 400
+                          $mWindow`;
+string $mColumn = `columnLayout - adjustableColumn 1
+                                - parent $mWindow`;
+button -parent $mColumn -label "Say Hello!" -command "print(\"Hello World!\")";
+
+optionVar -stringValue "firstField" `floatField`;
+optionVar -stringValue "secondField" `floatField`;
+optionVar -stringValue "thirdField" `floatField -editable 0`;
+optionVar -stringValue "myTextfield" `textField -editable 0`;
+
+button -parent $mColumn -label "print Field Value" -command WhatsInFloatField;
+button -parent $mColumn -label "Add Numbers!" -command Add;
+
+showWindow $mWindow;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+global proc string LotteryNumbers()
+{
+    int $values[];
+    for ($i=0; $i < 7; $i++)
+    {
+        int $num = `rand 100`;
+        $values[size($values)] = $num;
+    }
+
+    return (intArrayToString($values, " - "));
+}
+
+print (LotteryNumbers());
+
+
+global proc string BestestFriend(string $name)
+{
+   string $names[] = {"Dave", "Doug", "Clarence", "Mary", "Tina", "Phil"};
+    int $size = size($names);
+    int $randNum = `rand $size`;
+    return ($name + ", your new bestest friend will be named " + $names[$randNum] + "!");
+}
+
+BestestFriend("Tim");
+
+
+global proc string FortuneCookie()
+{
+   string $fortunes[] = {"long fortune 1", "long fortune 2", "long fortune 3"};
+    
+    int $randNum = `rand (size($fortunes))`;
+    return ($fortunes[$randNum]);
+}
+
+FortuneCookie();
+
+global proc string Zodiac(int $birthYear)
+{
+    string $signs[] = {"Rat","Ox","Tiger","Rabbit","Dragon","Snake","Horse","Sheep","Monkey","Rooster","Dog","Pig"};
+    int $index = ($birthYear - 4) % 12; //needs to be divisible by 12 (12 signs), and get a remainder of 0(?)
+    
+    return $signs[$index];
+    
+}
+
+
+global proc string FortuneTeller(string $myName, int $myBirthYear, int $operation)
+{
+    if ($operation == 1)
+    {
+        return ("Your lucky numbers for today are: " + LotteryNumbers() + ".");
+    }
+    else if ($operation == 2)
+    {
+        return(BestestFriend($myName));
+    }
+    else if($operation == 3)
+    {
+        return(FortuneCookie());
+    }
+    else if ($operation == 4)
+    {
+        return ("Based on your birth year, " + $myBirthYear + ", your zodiac sign is the " + Zodiac($myBirthYear) + ".");
+        
+        Zodiac($myBirthYear);
+    }
+    else
+    {
+        print ("Please input a valid operation type as a value, 1 through 4");
+    }
+}
+
+global proc FT_ButtonCmd()
+{
+    string $nameField = `optionVar -q "ftNameField"`;
+    string $yearField = `optionVar -q "ftYearField"`;
+    string $operField = `optionVar -q "ftOperation"`;
+    string $resultField = `optionVar -q "ftResult"`;
+
+    string $name = `textField -q -text $nameField`;
+    string $year = `intField -q -value $yearField`;
+    string $oper = `radioButtonGrp -q -select $operField`;
+
+    string $result = FortuneTeller($name, $year, $oper);
+    textField -e -text $result $resultField;
+
+}
+
+global proc FortuneUI()
+{
+    string $mWindow = "ftWindow";
+    if (`window -exists $mWindow`)
+        deleteUI $mWindow;
+
+        $mWindow = `window -title "Fortune Teller" 
+                                -widthHeight 300 400
+                                -resizeToFitChildren 1
+                                $mWindow`;
+        string $mColumn = `columnLayout -parent $mWindow -adjustableColumn 1`;
+        optionVar -stringValue "ftNameField" `textField -parent $mColumn -placeholderText "Enter name here..."`;
+        optionVar -stringValue "ftYearField" `intField -parent $mColumn`;
+        optionVar -stringValue "ftOperation" `radioButtonGrp -parent $mColumn -numberOfRadioButtons 4 -labelArray4 "Lucky Numbers" "Best Friend" "Fortune Cookie" "Zodiac Sign"`;
+        button -parent $mColumn -label "GO!" -command "FT_ButtonCmd";
+        optionVar -stringValue "ftResult" `textField -parent $mColumn -editable 0`;
+        showWindow $mWindow;
+
+}
+FortuneUI();
+
+
+
+
+
+
+
+// skeleton for 5A
+global proc RandomPlacement($xMin, $xMax, $numDups) //parameters for UI
+{
+    // use ls command with -selection (-sl) to get selection
+    string $sels[] = `ls -sl`;
+
+    for($i=0, $i< size($sels); $i++) //deciding which object you're duplicating
+    {
+        for(j = 0; j<$numDups; $j++) // actually duplicating object
+        {
+            //duplicate object, design to new variable - new name = ($sels[$i]), probably
+            //need to generate 3 random numbers based on min and max of UI (xmin and xmax), (ymin, ymax), (zmin, zmax)
+            //move to random position based on the 3 generated numbers, use xform
+        }
+    }
+}
+
+//5A UI in class notes
+window
+. 
+.
+.
+    .
+    .
+    .
+button -Command "RandomPlacement(xMin, xMax, other parameters)";  // in command "", runs what's in there
