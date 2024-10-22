@@ -1,3 +1,78 @@
+global proc string RandomPlacement(float $xMin, float $xMax, float $yMin, float $yMax, float $zMin, float $zMax, float $numDups)
+{
+    string $sels[] = `ls -sl`;
+
+    for($i=0; $i<size($sels); $i++) //deciding which object you're duplicating
+    {
+        for($j=0; $j<$numDups; $j++) // actually duplicating object
+        {
+            //duplicate object, design to new variable
+            string $temp[] = `duplicate $sels[$i]`;
+
+            //generate random numbers
+            float $xPlace = `rand $xMin $xMax`;
+            float $yPlace = `rand $yMin $yMax`;
+            float $zPlace = `rand $zMin $zMax`;
+            
+            //move to random position based on the 3 generated numbers
+            xform -relative -worldSpace -translation $xPlace $yPlace $zPlace $temp[0];
+        }
+    }
+}
+
+
+
+global proc placeButtonCmd()
+{
+    string $xMin = `optionVar -q "xMinField"`;
+    string $xMax = `optionVar -q "xMaxField"`;
+    string $yMin = `optionVar -q "yMinField"`;
+    string $yMax = `optionVar -q "yMaxField"`;
+    string $zMin = `optionVar -q "zMinField"`;
+    string $zMax = `optionVar -q "zMaxField"`;
+    string $numDups = `optionVar -q "numDups"`;
+}
+
+global proc placeUI()
+{
+    string $mWindow = "placeWindow";
+    if(`window -exists $mWindow`)
+    {
+        deleteUI $mWindow;
+    }
+
+    $mWindow = `window -title "Random Placement"
+                                -widthHeight 300 400
+                                -resizeToFitChildren 1
+                                $mWindow`;
+    string $mColumn = `columnLayout -parent $mWindow -adjustableColumn 1`;
+    optionVar -stringValue "xMinField" `intField -parent $mColumn -placeholderText "x min"`;
+    optionVar -stringValue "xMaxField" `intField -parent $mColumn -placeholderText "x max"`;
+    optionVar -stringValue "yMinField" `intField -parent $mColumn -placeholderText "y min"`;
+    optionVar -stringValue "yMaxField" `intField -parent $mColumn -placeholderText "y max"`;
+    optionVar -stringValue "zMinField" `intField -parent $mColumn -placeholderText "z min"`;
+    optionVar -stringValue "zMaxField" `intField -parent $mColumn -placeholderText "z max"`;
+    optionVar -stringValue "numDups" `intField -parent $mColumn -placeHolderText "number of duplicates"`;
+    button -parent $mColumn -label "Run" -command "RandomPlacement(xMin, $xMax, $yMin, $yMax, $zMin, $zMax, $numDups)";
+    showWindow $mWindow;
+}
+
+RandomPlacement();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 global proc RandomPlacement(float $xMin, float $xMax, float $yMin, float $yMax, float $zMin, float $zMax, float $numDups)
 {
     string $sels[] = `ls -sl`;
@@ -30,29 +105,33 @@ global proc placeButtonCmd()
     string $yMax = `optionVar -q "yMaxField"`;
     string $zMin = `optionVar -q "zMinField"`;
     string $zMax = `optionVar -q "zMaxField"`;
+    string $numDups = `optionVar -q "numDupsField"`;
+
+    string $placement = RandomPlacement($xMin, $xMax, $yMin, $yMax, $zMin, $zMax, $numDups);
+    
 }
 
 global proc placeUI()
 {
     string $mWindow = "placeWindow";
     if(`window -exists $mWindow`)
-    {
         deleteUI $mWindow;
-    }
+        
 
     $mWindow = `window -title "Random Placement"
                                 -widthHeight 300 400
                                 -resizeToFitChildren 1
                                 $mWindow`;
     string $mColumn = `columnLayout -parent $mWindow -adjustableColumn 1`;
-    optionVar -stringValue "xMinField" `intField -parent $mColumn -placeholderText "x min"`;
-    optionVar -stringValue "xMaxField" `intField -parent $mColumn -placeholderText "x max"`;
-    optionVar -stringValue "yMinField" `intField -parent $mColumn -placeholderText "y min"`;
-    optionVar -stringValue "yMaxField" `intField -parent $mColumn -placeholderText "y max"`;
-    optionVar -stringValue "zMinField" `intField -parent $mColumn -placeholderText "z min"`;
-    optionVar -stringValue "zMaxField" `intField -parent $mColumn -placeholderText "z max"`;
-    button -parent $mColumn -label "Run" -command "placeButtonCmd";
+    optionVar -stringValue "xMinField" `floatField -parent $mColumn`;
+    optionVar -stringValue "xMaxField" `floatField -parent $mColumn`;
+    optionVar -stringValue "yMinField" `floatField -parent $mColumn`;
+    optionVar -stringValue "yMaxField" `floatField -parent $mColumn`;
+    optionVar -stringValue "zMinField" `floatField -parent $mColumn`;
+    optionVar -stringValue "zMaxField" `floatField -parent $mColumn`;
+    optionVar -stringValue "numDupsField" `intField -parent $mColumn`;
+    button -parent $mColumn -label "Run" -command "placeButtonCmd()";
     showWindow $mWindow;
 }
 
-RandomPlacement(2,20,5,35,1,30,4);
+placeUI();
