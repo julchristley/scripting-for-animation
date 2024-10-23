@@ -1,92 +1,3 @@
-global proc RandomPlacement(float $xMin, float $xMax, float $yMin, float $yMax, float $zMin, float $zMax, float $numDups)
-{
-    string $sels[] = `ls -sl`;
-
-    for($i=0; $i<size($sels); $i++) //deciding which object you're duplicating
-    {
-        for($j=0; $j<$numDups; $j++) // actually duplicating object
-        {
-            //duplicate object, design to new variable
-            string $temp[] = `duplicate $sels[$i]`;
-
-            //generate random numbers
-            float $xPlace = `rand $xMin $xMax`;
-            float $yPlace = `rand $yMin $yMax`;
-            float $zPlace = `rand $zMin $zMax`;
-            
-            //move to random position based on the 3 generated numbers
-            xform -relative -worldSpace -translation $xPlace $yPlace $zPlace $temp[0];
-        }
-    }
-}
-
-
-
-global proc placeButtonCmd()
-{
-    string $xMin = `optionVar -q "xMinField"`;
-    string $xMax = `optionVar -q "xMaxField"`;
-    string $yMin = `optionVar -q "yMinField"`;
-    string $yMax = `optionVar -q "yMaxField"`;
-    string $zMin = `optionVar -q "zMinField"`;
-    string $zMax = `optionVar -q "zMaxField"`;
-    string $numDups = `optionVar -q "numDupsField"`;
-
-    string $xMinT = `textField -q -text $xMin`;
-    string $xMaxT = `textField -q -text $xMax`;
-    string $yMinT = `textField -q -text $yMin`;
-    string $yMaxT = `textField -q -text $yMax`;
-    string $zMinT = `textField -q -text $zMin`;
-    string $zMaxT = `textField -q -text $zMax`;
-    string $numDupsT = `textField -q -text $numDups`;
-
-    float $xMinF = float($xMinT);
-    float $xMaxF = float($xMaxT);
-    float $yMinF = float($yMinT);
-    float $yMaxF = float($yMaxT);
-    float $zMinF = float($zMinT);
-    float $zMaxF = float($zMaxT);
-    int $numDupsI = int($numDupsT);
-
-
-    RandomPlacement($xMin, $xMax, $yMin, $yMax, $zMin, $zMax, $numDups);
-    
-}
-
-global proc placeUI()
-{
-    string $mWindow = "placeWindow";
-    if(`window -exists $mWindow`)
-        deleteUI $mWindow;
-        
-
-    $mWindow = `window -title "Random Placement"
-                                -widthHeight 300 400
-                                -resizeToFitChildren 1
-                                $mWindow`;
-    string $mColumn = `columnLayout -parent $mWindow -adjustableColumn 1`;
-    optionVar -stringValue "xMinField" `floatField -parent $mColumn`;
-    optionVar -stringValue "xMaxField" `floatField -parent $mColumn`;
-    optionVar -stringValue "yMinField" `floatField -parent $mColumn`;
-    optionVar -stringValue "yMaxField" `floatField -parent $mColumn`;
-    optionVar -stringValue "zMinField" `floatField -parent $mColumn`;
-    optionVar -stringValue "zMaxField" `floatField -parent $mColumn`;
-    optionVar -stringValue "numDupsField" `intField -parent $mColumn`;
-    button -parent $mColumn -label "Run" -command "placeButtonCmd()";
-    showWindow $mWindow;
-}
-
-placeUI();
-
-
-
-
-
-
-
-
-
-
 global proc RandomPlacement(float $xMin, float $xMax, float $yMin, float $yMax, float $zMin, float $zMax, int $numDups)
 {
     string $sels[] = `ls -sl`;
@@ -121,13 +32,13 @@ global proc PlaceButtonCmd()
     string $zMaxF = `optionVar -q "zMaxField"`;
     string $numDupsF = `optionVar -q "numDupsField"`;
 
-    string $xMinT = `textField -q -text $xMinF`;
-    string $xMaxT = `textField -q -text $xMaxF`;
-    string $yMinT = `textField -q -text $yMinF`;
-    string $yMaxT = `textField -q -text $yMaxF`;
-    string $zMinT = `textField -q -text $zMinF`;
-    string $zMaxT = `textField -q -text $zMaxF`;
-    string $numDupsT = `textField -q -text $numDupsF`;
+    string $xMinT = `floatField -q -value $xMinF`;
+    string $xMaxT = `floatField -q -value $xMaxF`;
+    string $yMinT = `floatField -q -value $yMinF`;
+    string $yMaxT = `floatField -q -value $yMaxF`;
+    string $zMinT = `floatField -q -value $zMinF`;
+    string $zMaxT = `floatField -q -value $zMaxF`;
+    string $numDupsT = `intField -q -value $numDupsF`;
 
     float $xMin = float($xMinT);
     float $xMax = float($xMaxT);

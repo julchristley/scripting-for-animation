@@ -169,4 +169,15 @@ global proc Calculator(string $operation, float $input[])
     print ($resultStatement + "\n");
 }
 
+
+global proc calcButtonCmd()
+{
+    string $fieldNum = `optionVar -q "fieldNum"`;
+    string $field1 = `optionVar -q "field1"`;
+    string $field2 = `optionVar -q "field2"`;
+}
+
+
+
+
 Calculator("median", {1,2,3});
