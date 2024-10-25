@@ -1,4 +1,3 @@
-
 global proc float GetSum(float $input[])
 {
     float $sum = 0;
@@ -93,7 +92,7 @@ global proc float GetMedian(float $input[])
 }
 
 
-global proc Calculator(string $operation, float $input[])
+global proc string Calculator(string $op1, string $op2, float $input[])
 {   
     float $result;
     string $resultStatement = "";
@@ -104,31 +103,31 @@ global proc Calculator(string $operation, float $input[])
 
         if ($i < size($input) -1)
         {
-            if ($operation == "add")
+            if ($op1 == "1")
             {
                 $resultStatement += " + ";
             }
-            else if ($operation == "subtract")
+            else if ($op1 == "2")
             {
                 $resultStatement += " - ";
             }
-            else if ($operation == "multiply")
+            else if ($op1 == "3")
             {
                 $resultStatement += " * ";
             }
-            else if ($operation == "divide")
+            else if ($op1 == "4")
             {
                 $resultStatement += " / ";
             }
-            else if ($operation == "power")
+            else if ($op2 == "1")
             {
                 $resultStatement += " ^ ";
             }
-                else if ($operation == "mean")
+                else if ($op2 == "2")
             {
                 $resultStatement += ", ";
             }
-                else if ($operation == "median")
+                else if ($op2 == "3")
             {
                 $resultStatement += ", ";
             }
@@ -136,48 +135,86 @@ global proc Calculator(string $operation, float $input[])
     }
 
 
-    if ($operation == "add")
+    if ($op1 == "1")
     {
         $result = GetSum($input);
     }
-    else if ($operation == "subtract")
+    else if ($op1 == "2")
     {
         $result = GetDifference($input);
     }
-    else if ($operation == "multiply")
+    else if ($op1 == "3")
     {
         $result = GetProduct($input);
     }
-    else if ($operation == "divide")
+    else if ($op1 == "4")
     {
         $result = GetQuotient($input);
     }
-    else if ($operation == "power")
+    else if ($op2 == "1")
     {
         $result = GetPower($input);
     }
-    else if ($operation == "mean")
+    else if ($op2 == "2")
     {
         $result = GetMean($input);
     }
-    else if ($operation == "median")
+    else if ($op2 == "3")
     {
         $result = GetMedian($input);
     }
 
     $resultStatement += " = " + string($result);
-    print ($resultStatement + "\n");
+    return ($resultStatement + "\n");
 }
 
 
-global proc calcButtonCmd()
+global proc CalcButtonCmd()
 {
-    string $fieldNum = `optionVar -q "fieldNum"`;
-    string $field1 = `optionVar -q "field1"`;
-    string $field2 = `optionVar -q "field2"`;
+    string $optionField1 = `optionVar -q "optionField1"`;
+    string $optionField2 =`optionVar -q "optionField2"`;
+    string $inputField = `optionVar -q "inputField"`;
+    string $resultField = `optionVar -q "calcResult"`;
+
+
+
+    string $inputT = `textField -q -text $inputField`;
+    string $op1 = `radioButtonGrp -q -select $optionField1`;
+    string $op2 = `radioButtonGrp -q -select $optionField2`;
+
+
+    string $inputTemp[];
+
+    tokenizeList($inputT, $inputTemp);
+
+    float $input[];
+    for ($str in $inputTemp)
+    {
+        int $index = size($input);
+        $input[$index] = float($str);
+    }
+
+    string $result = Calculator($op1, $op2, $input);
+    textField -e -text $result $resultField;
 }
 
+global proc CalcUI()
+{
+    string $mWindow = "placeWindow";
+    if(`window -exists $mWindow`)
+        deleteUI $mWindow;
 
-
-
-Calculator("median", {1,2,3});
+    $mWindow = `window -title "Calculator"
+                                -widthHeight 300 400
+                                -resizeToFitChildren 1
+                                $mWindow`;
+    string $mColumn = `columnLayout -parent $mWindow -adjustableColumn 1`;
+    optionVar -stringValue "inputField" `textField -parent $mColumn -placeholderText "Enter numbers here"`;
+    string $buttonMerge = `radioButtonGrp -parent $mColumn -visible 0`;
+    optionVar -stringValue "optionField1" `radioButtonGrp -parent $mColumn -numberOfRadioButtons 4 -shareCollection $buttonMerge -labelArray4 "Add" "Subtract" "Multiply" "Divide"`;
+    optionVar -stringValue "optionField2" `radioButtonGrp -parent $mColumn -numberOfRadioButtons 3 -shareCollection $buttonMerge -labelArray3 "Power" "Mean" "Median"`;
+    button -parent $mColumn -label "Run" -command CalcButtonCmd;
+    optionVar -stringValue "calcResult" `textField -parent $mColumn -editable 0`;
+    showWindow $mWindow;
+}
+CalcUI();
