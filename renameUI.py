@@ -1,21 +1,5 @@
 import maya.cmds as cmds
-
-def rename(name, num, node_type) :
-    objects = cmds.ls(selection=True)
-
-    temp = name.count("#")
-    old_name = name.replace("#" * temp, "{:0" + str(temp) + "d}")
-
-    new_names = []
-
-    for i, obj in enumerate(objects, start=num) :
-        name_full = old_name.format(i)
-        final_name = f"{name_full}_{node_type}"
-        new_name = cmds.rename(obj, final_name)
-        new_names.append(new_name)
-
-        
-
+import rename
 
 class renameUI() :
     def __init__(self) :
@@ -42,8 +26,13 @@ class renameUI() :
         name = cmds.textField(self.rnNameField, q=True, text=True)
         num = cmds.intField(self.rnNumField, q=True, value=True)
         node_type = cmds.textField(self.rnNodeTypeField, q=True, text=True)
-        result = rename(name, num, node_type)
+        
+        result = rename.rename(name, num, node_type)
         cmds.textField(self.rnResult, e=True, text=result)
 
-ui = renameUI()
-ui.create()
+
+#what goes into the script editor
+
+#import renameUI
+#MyUI = renameUI.renameUI()
+#myUI.create()

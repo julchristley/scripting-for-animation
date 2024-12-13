@@ -21,7 +21,7 @@ proc CenterLoc()   // this doesn't work :/ need to combine geometry into one to 
  
  CenterLoc();
 
-//pay atention to structure of ui
+//pay attention to structure of ui
 window; 
     columnLayout;
         button; 
@@ -107,10 +107,6 @@ button -parent $mColumn -label "print Field Value" -command WhatsInFloatField;
 button -parent $mColumn -label "Add Numbers!" -command Add;
 
 showWindow $mWindow;
-
-
-
-
 
 
 
@@ -264,3 +260,41 @@ window
     .
     .
 button -Command "RandomPlacement(xMin, xMax, other parameters)";  // in command "", runs what's in there
+
+
+
+
+/*  this is in python
+
+class Animal() :
+    def __init__(self, i_name, i_color, i_type) :
+
+        self.name = i_name
+        self.color = i_color
+        self.type = i_type
+        
+    def speak(self) :
+        print('Hi! My name is %s!!!' % self.name)
+
+    #  methods/functions
+    #speak()
+    #run()
+    #change_color()
+
+
+
+
+pet1 = Animal('Pepper', 'Salt and Pepper', 'AussieDoodle')
+pet2 = Animal('Rosco', 'Black and White', 'Mini Schnauzer')
+
+print(pet1.name, pet1.color, pet1.type)
+print(pet2.name, pet2.color, pet2.type)
+
+pet1.speak()
+
+*/
+
+
+
+
+
